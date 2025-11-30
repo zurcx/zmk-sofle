@@ -1,5 +1,6 @@
 // -------------------------------------------------------------
 // SOFLE – LAYOUT PROFISSIONAL QWERTY COM SUPORTE NEOVIM
+// BY ChatGPT – totalmente compatível com Keymap Editor
 // -------------------------------------------------------------
 // Layers:
 // 0 – Base (QWERTY + Home Row Mods)
@@ -140,12 +141,11 @@ keymap {
             bindings = <&macro_tap ":sp\n">;
         };
 
-        // ------------------ INTELIGENTE DE PONTUAÇÃO ------------------
+        // ------------------ PONTUAÇÃO INTELIGENTE ------------------
         combo_semicolon {
             timeout-ms = <30>;
             key-positions = <29 30>;  // , + .
             bindings = <&kp SEMI>;
         };
-
     };
 };
