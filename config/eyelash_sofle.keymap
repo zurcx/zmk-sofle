@@ -47,113 +47,63 @@
             bindings = <&soft_off>;
             key-positions = <14 28 40>;
         };
-
-        /* simple combos (avoid macros) */
-        combo_semicolon {
-            timeout-ms = <30>;
-            key-positions = <29 30>;  // , + .
-            bindings = <&kp SEMI>;
-        };
-        /* undo: sends 'u' (Neovim undo) */
-        combo_undo {
-            timeout-ms = <30>;
-            key-positions = <10 11>;  // A + S
-            bindings = <&kp U>;
-        };
-        /* redo: send 'r' (redo in some mappings; if you use Ctrl+R frequently,
-           we can enable macros / mod combos later) */
-        combo_redo {
-            timeout-ms = <30>;
-            key-positions = <1 2>;    // W + E
-            bindings = <&kp R>;
-        };
     };
 
     keymap {
         compatible = "zmk,keymap";
 
-        /****************************************************************
-         * LAYER 0 — BASE (QWERTY) with Home-Row Mods using &mt (mod-tap)
-         * Note: &mt MOD KEY => tap: KEY, hold: MOD (supported in ZMK)
-         ****************************************************************/
         layer0 {
             bindings = <
-/* row 0 (top) */
-&kp ESC     &kp Q      &kp W      &kp E      &kp R      &kp T       &kp Y       &kp U      &kp I      &kp O      &kp P      &kp LBRC   &kp RBRC
-/* row 1 (home) */
-&kp TAB     &mt LCTRL A &mt LALT S &mt LGUI D &mt LSHFT F &kp G       &kp H       &mt RSHFT J &mt RGUI K &mt RALT L &mt RCTRL SCLN &kp APOSTROP &kp BSLH
-/* row 2 (lower) */
-&kp LSHIFT  &kp Z      &kp X      &kp C      &kp V      &kp B       &kp N       &kp M      &kp COMMA  &kp DOT    &kp SLASH  &kp ENTER  &kp BSPC
-/* thumb row */
-&kp C_MUTE  &kp LCTRL  &kp LEFT_GUI &kp LEFT_ALT &mo 1  &kp SPACE   &kp ENTER   &kp SPACE  &mo 2  &kp RIGHT_ALT &kp RIGHT_GUI &kp RIGHT_CTRL &kp DELETE
+&kp ESC     &kp N1     &kp N2        &kp N3        &kp N4  &kp N5       &kp UP_ARROW     &kp N6     &kp N7     &kp N8     &kp N9           &kp N0      &kp BACKSPACE
+&kp TAB     &kp Q      &kp W         &kp E         &kp R   &kp T        &kp DOWN_ARROW   &kp Y      &kp U      &kp I      &kp O            &kp P       &kp BSLH
+&kp CAPS    &kp A      &kp S         &kp D         &kp F   &kp G        &kp LEFT_ARROW   &kp H      &kp J      &kp K      &kp L            &kp SEMI    &kp APOS
+&kp LSHFT   &kp Z      &kp X         &kp C         &kp V   &kp B        &kp RIGHT_ARROW  &kp N      &kp M      &kp COMMA  &kp DOT          &kp FSLH    &kp ENTER
+&kp C_MUTE  &kp LCTRL  &kp LEFT_GUI  &kp LEFT_ALT  &mo 1   &kp SPACE    &kp ENTER        &kp SPACE  &kp ENTER  &mo 2      &kp RIGHT_SHIFT  &kp DELETE
             >;
 
-            /* preserve original sensor/enc bindings */
             sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOL_DN>;
             display-name = "LAYER0";
         };
 
-        /****************************************************************
-         * LAYER 1 — SYMBOLS (activated by MO 1)
-         * (contains most punctuation used in programming)
-         ****************************************************************/
         layer_1 {
             bindings = <
-/* row 0 */
-&kp GRAVE  &kp EXCL &kp AT   &kp HASH  &kp DLLR  &kp PRCNT &kp CARET &kp AMPS  &kp STAR  &kp LPAR  &kp RPAR  &kp UNDERSCORE &trans
-/* row 1 */
-&trans     &kp TILDE &kp PIPE &kp LT    &kp GT   &kp QMARK &kp COLON &kp SEMI &kp DQT &kp SQT &kp LBRC  &kp RBRC &kp BSLH
-/* row 2 */
-&trans     &kp PLUS  &kp MINUS &kp EQUAL &kp SLASH &kp BACKSLASH &kp PIPE &kp LESS &kp GREATER &kp QUESTION &kp AT &kp HASH &trans
-/* thumb */
-&kp C_MUTE &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&kp GRAVE   &kp F1           &kp F2          &kp F3           &kp F4           &kp F5             &mmv MOVE_UP     &kp F6           &kp F7           &kp F8      &kp F9     &kp F10           &trans
+&trans      &kp GRAVE        &mkp LCLK       &mkp MCLK        &mkp RCLK        &mkp MB4           &mmv MOVE_DOWN   &kp PG_UP        &kp END          &kp UP      &kp HOME   &kp MINUS         &kp EQUAL
+&trans      &kp TILDE        &trans          &trans           &trans           &mkp MB5           &mmv MOVE_LEFT   &kp PG_DN        &kp LEFT         &kp DOWN    &kp RIGHT  &kp LEFT_BRACKET  &kp RIGHT_BRACKET
+&trans      &rgb_ug RGB_OFF  &rgb_ug RGB_ON  &rgb_ug RGB_EFF  &rgb_ug RGB_EFR  &rgb_ug RGB_SPI    &mmv MOVE_RIGHT  &rgb_ug RGB_BRI  &rgb_ug RGB_BRD  &kp INSERT  &kp F11    &kp F12           &trans
+&kp C_MUTE  &trans           &trans          &trans           &trans           &trans             &mkp LCLK        &trans           &trans           &trans      &trans     &trans
             >;
 
             display-name = "layer1";
             sensor-bindings = <&scroll_encoder>;
         };
 
-        /****************************************************************
-         * LAYER 2 — NUMBERS (activated by MO 2)
-         ****************************************************************/
         layer_2 {
             bindings = <
-/* row 0 */
-&kp TILDE  &kp N1     &kp N2    &kp N3    &kp N4   &kp N5   &kp N6   &kp N7   &kp N8   &kp N9    &kp N0   &kp MINUS &kp EQUAL
-/* row 1 */
-&trans     &kp KP_7   &kp KP_8  &kp KP_9  &kp KP_PLUS &kp KP_MULT &kp KP_4 &kp KP_5 &kp KP_6 &kp KP_MINUS &kp KP_DIV &kp KP_1 &kp KP_2
-/* row 2 */
-&trans     &kp KP_0   &kp KP_DOT &kp KP_ENTER &kp KP_PLUS &kp KP_MULT &trans &trans &trans &trans &trans &trans &trans
-/* thumb */
-&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&kp TILDE  &bt BT_SEL 0  &bt BT_SEL 1    &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &mmv MOVE_UP     &kp F6  &kp F7  &kp F8      &kp F9     &kp F10      &trans
+&trans     &bt BT_CLR    &bt BT_CLR_ALL  &trans        &trans        &trans          &mmv MOVE_DOWN   &trans  &trans  &kp F11     &kp F12    &kp UNDER    &kp PLUS
+&trans     &out OUT_USB  &out OUT_BLE    &trans        &trans        &trans          &mmv MOVE_LEFT   &trans  &trans  &trans      &trans     &kp LBRC     &kp RBRC
+&trans     &sys_reset    &trans          &bootloader   &trans        &trans          &mmv MOVE_RIGHT  &trans  &trans  &sys_reset  &soft_off  &bootloader  &trans
+&trans     &trans        &trans          &trans        &trans        &trans          &mkp LCLK        &trans  &trans  &trans      &trans     &trans
             >;
 
             display-name = "layer2";
             sensor-bindings = <&scroll_encoder>;
         };
 
-        /****************************************************************
-         * LAYER 3 — NAVIGATION & EDITING
-         ****************************************************************/
         layer_3 {
             bindings = <
-/* row 0 */
-&kp ESC  &kp HOME  &kp PG_UP  &kp END  &kp F5  &kp F6  &kp LEFT_ARROW &kp DOWN_ARROW &kp UP_ARROW &kp RIGHT_ARROW &kp INSERT &kp PRINT &trans
-/* row 1 */
-&kp TAB  &kp LEFT  &kp DOWN  &kp UP  &kp RIGHT &kp PG_DN &kp DEL &kp BSPC &kp RET &kp SAVE &kp UNDO &kp REDO &trans
-/* row 2 */
-&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-/* thumb */
-&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
             >;
 
             display-name = "layer3";
             sensor-bindings = <&scroll_encoder>;
         };
 
-        /****************************************************************
-         * LAYER 4 — SYSTEM (keeps your original system bindings)
-         ****************************************************************/
         layer_4 {
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
