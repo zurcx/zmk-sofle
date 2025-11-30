@@ -1,119 +1,151 @@
-#define ZMK_POINTING_DEFAULT_MOVE_VAL 1200  // 600
-#define ZMK_POINTING_DEFAULT_SCRL_VAL 25   // 10
+// -------------------------------------------------------------
+// SOFLE – LAYOUT PROFISSIONAL QWERTY COM SUPORTE NEOVIM
+// -------------------------------------------------------------
+// Layers:
+// 0 – Base (QWERTY + Home Row Mods)
+// 1 – Symbols (Space Hold)
+// 2 – Numbers (Enter Hold)
+// 3 – Navigation / Editing
+// 4 – System (Bluetooth, Reset, Bootloader)
+// Combos customizados para Neovim
+// -------------------------------------------------------------
 
-#include <input/processors.dtsi>
-#include <zephyr/dt-bindings/input/input-event-codes.h>
-#include <behaviors.dtsi>
-#include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/keys.h>
-#include <dt-bindings/zmk/outputs.h>
-#include <dt-bindings/zmk/pointing.h>
-#include <dt-bindings/zmk/rgb.h>
+keymap {
+    compatible = "zmk,keymap";
 
-&mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
-
-&msc_input_listener { input-processors = <&zip_scroll_scaler 2 1>; };
-
-&msc {
-    acceleration-exponent = <1>;      // 0
-    time-to-max-speed-ms = <100>;       // 300
-    delay-ms = <0>;                   // 0
-};
-
-&mmv {
-    time-to-max-speed-ms = <500>;
-    acceleration-exponent = <1>;
-    trigger-period-ms = <16>;
-};
-
-&soft_off { hold-time-ms = <2000>; };
-
-/ {
-    scroll_encoder: scroll_encoder {
-        compatible = "zmk,behavior-sensor-rotate";
-        #sensor-binding-cells = <0>;
-        bindings = <&msc SCRL_DOWN>, <&msc SCRL_UP>;
-
-        tap-ms = <100>;
+    //--------------------------------------------------------------------
+    // LAYER 0 — BASE (QWERTY + HOME-ROW MODS)
+    //--------------------------------------------------------------------
+    layer0 {
+        bindings = <
+            &kp Q        &kp W         &kp E         &kp R         &kp T                     &none   &kp Y          &kp U            &kp I            &kp O          &kp P
+            &hm LCTRL A  &hm LALT S    &hm LGUI D     &hm LSHFT F   &kp G                    &none   &kp H          &hm RCTRL J      &hm RALT K       &hm RGUI L     &hm RSHFT SEMI
+            &kp Z        &kp X         &kp C         &kp V         &kp B                    &none   &kp N          &kp M            &kp COMMA        &kp DOT        &kp SLASH
+                             &lt 1 SPACE      &lt 2 ENTER
+        >;
     };
 
-    behaviors {
+    //--------------------------------------------------------------------
+    // LAYER 1 — SYMBOLS (Sym Layer → Space Hold)
+    //--------------------------------------------------------------------
+    layer1 {
+        bindings = <
+            &kp EXCL    &kp AT       &kp HASH     &kp DLLR     &kp PRCNT       &none   &kp CARET &kp AMPS    &kp STAR     &kp LPAR   &kp RPAR
+            &kp EQUAL   &kp PLUS     &kp MINUS    &kp UNDER    &kp FSLH        &none   &kp DQT   &kp SQT     &kp LBRC     &kp RBRC   &kp BSLH
+            &kp TILDE   &kp PIPE     &kp LT       &kp GT       &kp QMARK       &none   &kp LBRKT &kp RBRKT   &kp COLON    &kp SEMI   &kp GRAVE
+                         &trans     &trans
+        >;
     };
 
+    //--------------------------------------------------------------------
+    // LAYER 2 — NUMBERS (Num Layer → Enter Hold)
+    //--------------------------------------------------------------------
+    layer2 {
+        bindings = <
+            &kp N1      &kp N2      &kp N3       &kp KP_PLUS  &kp KP_MULT     &none   &trans &trans &trans &trans &trans
+            &kp N4      &kp N5      &kp N6       &kp KP_MINUS &kp KP_DIV      &none   &trans &trans &trans &trans &trans
+            &kp N7      &kp N8      &kp N9       &kp N0       &kp EQUAL       &none   &trans &trans &trans &trans &trans
+                          &trans    &trans
+        >;
+    };
+
+    //--------------------------------------------------------------------
+    // LAYER 3 — NAVIGATION & EDITING
+    //--------------------------------------------------------------------
+    layer3 {
+        bindings = <
+            &kp ESC    &kp HOME   &kp PG_UP   &kp END      &kp F5              &none   &kp CUT  &kp COPY &kp PASTE &kp UNDO  &trans
+            &kp TAB    &kp LEFT   &kp DOWN    &kp UP       &kp RIGHT           &none   &kp DEL  &kp BSPC &kp RET   &kp SAVE  &trans
+            &trans     &trans     &trans      &trans       &trans              &none   &trans   &trans   &trans    &trans    &trans
+                          &trans   &trans
+        >;
+    };
+
+    //--------------------------------------------------------------------
+    // LAYER 4 — SYSTEM (Bluetooth, Sleep, Boot)
+    //--------------------------------------------------------------------
+    layer4 {
+        bindings = <
+            &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_CLR   &reset       &none  &trans &trans &trans &trans &trans
+            &caps_word     &kp SLEEP_DIS  &battery       &bootloader  &trans       &none  &trans &trans &trans &trans &trans
+            &trans         &trans         &trans         &trans       &trans       &none  &trans &trans &trans &trans &trans
+                            &trans       &trans
+        >;
+    };
+
+    //--------------------------------------------------------------------
+    // COMBOS — OTIMIZADOS PARA NEOVIM
+    //--------------------------------------------------------------------
     combos {
         compatible = "zmk,combos";
 
-        softoff {
-            bindings = <&soft_off>;
-            key-positions = <14 28 40>;
-        };
-    };
-
-    keymap {
-        compatible = "zmk,keymap";
-
-        layer0 {
-            bindings = <
-&kp ESC     &kp N1     &kp N2        &kp N3        &kp N4  &kp N5       &kp UP_ARROW     &kp N6     &kp N7     &kp N8     &kp N9           &kp N0      &kp BACKSPACE
-&kp TAB     &kp Q      &kp W         &kp E         &kp R   &kp T        &kp DOWN_ARROW   &kp Y      &kp U      &kp I      &kp O            &kp P       &kp BSLH
-&kp CAPS    &kp A      &kp S         &kp D         &kp F   &kp G        &kp LEFT_ARROW   &kp H      &kp J      &kp K      &kp L            &kp SEMI    &kp APOS
-&kp LSHFT   &kp Z      &kp X         &kp C         &kp V   &kp B        &kp RIGHT_ARROW  &kp N      &kp M      &kp COMMA  &kp DOT          &kp FSLH    &kp ENTER
-&kp C_MUTE  &kp LCTRL  &kp LEFT_GUI  &kp LEFT_ALT  &mo 1   &kp SPACE    &kp ENTER        &kp SPACE  &kp ENTER  &mo 2      &kp RIGHT_SHIFT  &kp DELETE
-            >;
-
-            sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOL_DN>;
-            display-name = "LAYER0";
+        // ------------------ UNDO / REDO ------------------
+        combo_undo {
+            timeout-ms = <30>;
+            key-positions = <10 11>;   // A + S
+            bindings = <&kp U>;
         };
 
-        layer_1 {
-            bindings = <
-&kp GRAVE   &kp F1           &kp F2          &kp F3           &kp F4           &kp F5             &mmv MOVE_UP     &kp F6           &kp F7           &kp F8      &kp F9     &kp F10           &trans
-&trans      &kp GRAVE        &mkp LCLK       &mkp MCLK        &mkp RCLK        &mkp MB4           &mmv MOVE_DOWN   &kp PG_UP        &kp END          &kp UP      &kp HOME   &kp MINUS         &kp EQUAL
-&trans      &kp TILDE        &trans          &trans           &trans           &mkp MB5           &mmv MOVE_LEFT   &kp PG_DN        &kp LEFT         &kp DOWN    &kp RIGHT  &kp LEFT_BRACKET  &kp RIGHT_BRACKET
-&trans      &rgb_ug RGB_OFF  &rgb_ug RGB_ON  &rgb_ug RGB_EFF  &rgb_ug RGB_EFR  &rgb_ug RGB_SPI    &mmv MOVE_RIGHT  &rgb_ug RGB_BRI  &rgb_ug RGB_BRD  &kp INSERT  &kp F11    &kp F12           &trans
-&kp C_MUTE  &trans           &trans          &trans           &trans           &trans             &mkp LCLK        &trans           &trans           &trans      &trans     &trans
-            >;
-
-            display-name = "layer1";
-            sensor-bindings = <&scroll_encoder>;
+        combo_redo {
+            timeout-ms = <30>;
+            key-positions = <1 2>;     // W + E
+            bindings = <&kp C_R>;
         };
 
-        layer_2 {
-            bindings = <
-&kp TILDE  &bt BT_SEL 0  &bt BT_SEL 1    &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &mmv MOVE_UP     &kp F6  &kp F7  &kp F8      &kp F9     &kp F10      &trans
-&trans     &bt BT_CLR    &bt BT_CLR_ALL  &trans        &trans        &trans          &mmv MOVE_DOWN   &trans  &trans  &kp F11     &kp F12    &kp UNDER    &kp PLUS
-&trans     &out OUT_USB  &out OUT_BLE    &trans        &trans        &trans          &mmv MOVE_LEFT   &trans  &trans  &trans      &trans     &kp LBRC     &kp RBRC
-&trans     &sys_reset    &trans          &bootloader   &trans        &trans          &mmv MOVE_RIGHT  &trans  &trans  &sys_reset  &soft_off  &bootloader  &trans
-&trans     &trans        &trans          &trans        &trans        &trans          &mkp LCLK        &trans  &trans  &trans      &trans     &trans
-            >;
-
-            display-name = "layer2";
-            sensor-bindings = <&scroll_encoder>;
+        // ------------------ SAVE (:w) ------------------
+        combo_save_file {
+            timeout-ms = <40>;
+            key-positions = <2 3>;     // E + R
+            bindings = <&macro_tap ":w\n">;
         };
 
-        layer_3 {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-            >;
-
-            display-name = "layer3";
-            sensor-bindings = <&scroll_encoder>;
+        // ------------------ SAVE & QUIT (:wq) ------------------
+        combo_wq {
+            timeout-ms = <40>;
+            key-positions = <22 23>;   // K + L
+            bindings = <&macro_tap ":wq\n">;
         };
 
-        layer_4 {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-            >;
-         display-name = "layer4";
-            sensor-bindings = <&scroll_encoder>;
+        // ------------------ QUIT WITHOUT SAVE (:q!) ------------------
+        combo_quit_force {
+            timeout-ms = <40>;
+            key-positions = <24 25>;   // O + P
+            bindings = <&macro_tap ":q!\n">;
         };
+
+        // ------------------ SEARCH "/" ------------------
+        combo_search {
+            timeout-ms = <30>;
+            key-positions = <21 22>;   // U + I
+            bindings = <&kp SLASH>;
+        };
+
+        // ------------------ SUBSTITUTE (:%s/) ------------------
+        combo_substitute {
+            timeout-ms = <40>;
+            key-positions = <20 21>;   // Y + U
+            bindings = <&macro_tap ":%s/">';
+        };
+
+        // ------------------ SPLITS ------------------
+        combo_vsplit {
+            timeout-ms = <40>;
+            key-positions = <22 23>;   // I + O
+            bindings = <&macro_tap ":vsp\n">;
+        };
+
+        combo_hsplit {
+            timeout-ms = <40>;
+            key-positions = <13 14>;   // J + K
+            bindings = <&macro_tap ":sp\n">;
+        };
+
+        // ------------------ INTELIGENTE DE PONTUAÇÃO ------------------
+        combo_semicolon {
+            timeout-ms = <30>;
+            key-positions = <29 30>;  // , + .
+            bindings = <&kp SEMI>;
+        };
+
     };
 };
