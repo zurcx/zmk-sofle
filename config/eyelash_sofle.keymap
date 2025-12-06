@@ -11,6 +11,7 @@
 #include <dt-bindings/zmk/rgb.h>
 
 &mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
+
 &msc_input_listener { input-processors = <&zip_scroll_scaler 2 1>; };
 
 &msc {
@@ -27,91 +28,18 @@
 
 &soft_off { hold-time-ms = <2000>; };
 
-
 / {
     // -------------------------
     //  MACROS DE ACENTOS
     // -------------------------
-    macros {
-        compatible = "zmk,macros";
 
-        a_acute: a_acute {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp QUOT>, <&kp A>;
-        };
-
-        a_grave: a_grave {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp GRAVE>, <&kp A>;
-        };
-
-        a_circ: a_circ {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp CARET>, <&kp A>;
-        };
-
-        a_tilde: a_tilde {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp TILDE>, <&kp A>;
-        };
-
-        e_acute: e_acute {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp QUOT>, <&kp E>;
-        };
-
-        e_circ: e_circ {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp CARET>, <&kp E>;
-        };
-
-        i_acute: i_acute {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp QUOT>, <&kp I>;
-        };
-
-        o_acute: o_acute {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp QUOT>, <&kp O>;
-        };
-
-        o_circ: o_circ {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp CARET>, <&kp O>;
-        };
-
-        o_tilde: o_tilde {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp TILDE>, <&kp O>;
-        };
-
-        u_acute: u_acute {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp QUOT>, <&kp U>;
-        };
-
-        c_ced: c_ced {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp COMMA>, <&kp C>;
-        };
-    };
+    macros { compatible = "zmk,macros"; };
 
     scroll_encoder: scroll_encoder {
         compatible = "zmk,behavior-sensor-rotate";
         #sensor-binding-cells = <0>;
         bindings = <&msc SCRL_DOWN>, <&msc SCRL_UP>;
+
         tap-ms = <100>;
     };
 
@@ -124,30 +52,33 @@
         };
     };
 
+    behaviors {
+    };
+
     keymap {
         compatible = "zmk,keymap";
-
 
         //----------------------------------
         // LAYER 0 (MODIFICADA)
         //----------------------------------
+
         layer0 {
             bindings = <
-&kp ESC     &kp N1     &kp N2        &kp N3        &kp N4  &kp N5       &kp UP_ARROW     &kp N6     &kp N7     &kp N8     &kp N9           &kp N0      &kp BACKSPACE
-&kp TAB     &kp Q      &kp W         &kp E         &kp R   &kp T        &kp DOWN_ARROW   &kp Y      &kp U      &kp I      &kp O            &kp P       &kp BSLH
-&kp CAPS    &kp A      &kp S         &kp D         &kp F   &kp G        &kp LEFT_ARROW   &kp H      &kp J      &kp K      &kp L            &kp SEMI    &kp APOS
-&kp LSHFT   &kp Z      &kp X         &kp C         &kp V   &kp B        &kp RIGHT_ARROW  &kp N      &kp M      &kp COMMA  &kp DOT          &kp FSLH    &kp ENTER
-&kp C_MUTE  &kp LCTRL  &kp LEFT_GUI  &kp LEFT_ALT  &mo 1   &kp SPACE    &kp ENTER        &kp SPACE  &kp ENTER  &mo 4      &kp RIGHT_SHIFT  &lt acentos DELETE
+&kp ESC     &kp N1     &kp N2        &kp N3        &kp N4  &kp N5       &kp UP_ARROW     &kp N6     &kp N7     &kp N8     &kp N9           &kp N0        &kp BACKSPACE
+&kp TAB     &kp Q      &kp W         &kp E         &kp R   &kp T        &kp DOWN_ARROW   &kp Y      &kp U      &kp I      &kp O            &kp P         &kp BSLH
+&kp CAPS    &kp A      &kp S         &kp D         &kp F   &kp G        &kp LEFT_ARROW   &kp H      &kp J      &kp K      &kp L            &kp SEMI      &kp APOS
+&kp LSHFT   &kp Z      &kp X         &kp C         &kp V   &kp B        &kp RIGHT_ARROW  &kp N      &kp M      &kp COMMA  &kp DOT          &kp FSLH      &kp ENTER
+&kp C_MUTE  &kp LCTRL  &kp LEFT_GUI  &kp LEFT_ALT  &mo 1   &kp SPACE    &kp ENTER        &kp SPACE  &kp ENTER  &mo 0      &kp RIGHT_SHIFT  &lt 0 DELETE
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOL_DN>;
             display-name = "LAYER0";
         };
 
-
         //----------------------------------
         // LAYER 1 (FUNÇÕES / RGB / MOUSE)
         //----------------------------------
+
         layer_1 {
             bindings = <
 &kp GRAVE   &kp F1           &kp F2          &kp F3           &kp F4           &kp F5             &mmv MOVE_UP     &kp F6           &kp F7           &kp F8      &kp F9     &kp F10           &trans
@@ -161,10 +92,10 @@
             sensor-bindings = <&scroll_encoder>;
         };
 
-
         //----------------------------------
         // LAYER 2 (BLUETOOTH / OUTPUTS)
         //----------------------------------
+
         layer_2 {
             bindings = <
 &kp TILDE  &bt BT_SEL 0  &bt BT_SEL 1    &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &mmv MOVE_UP     &kp F6  &kp F7  &kp F8      &kp F9     &kp F10      &trans
@@ -178,10 +109,10 @@
             sensor-bindings = <&scroll_encoder>;
         };
 
-
         //----------------------------------
         // LAYER 3 (NUMPAD)
         //----------------------------------
+
         layer_3 {
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &trans    &trans  &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &trans  &trans  &trans
@@ -195,37 +126,23 @@
             sensor-bindings = <&scroll_encoder>;
         };
 
-
         //----------------------------------
         // LAYER ACENTOS (MACROS)
         //----------------------------------
-        acentos {
-            bindings = <
-&trans &trans &trans &trans &trans &trans  &trans   &a_acute  &e_acute  &i_acute  &o_acute  &u_acute  &c_ced
-&trans &trans &trans &trans &trans &trans  &trans   &a_grave  &e_circ   &i_acute  &o_circ   &a_tilde  &o_tilde
-&trans &trans &trans &trans &trans &trans  &trans   &kp QUOT  &kp GRAVE &kp CARET &kp TILDE &kp COMMA &kp MINUS
-&trans &trans &trans &trans &trans &trans  &trans   &kp DOT   &kp COMMA &kp SLASH &kp EXCLAMATION &kp UNDERSCORE &trans
-&trans &trans &trans &trans &trans &trans  &trans   &trans    &trans    &trans    &trans    &trans
-            >;
-
-            display-name = "ACENTOS";
-        };
-
-
         //----------------------------------
         // LAYER 4 – SÍMBOLOS PROGRAMADOR
         //----------------------------------
+
         layer_4 {
             bindings = <
-&trans   &kp EXCLAMATION &kp AT     &kp HASH     &kp DLLR     &kp PRCNT    &kp CARET     &kp AMPS      &kp STAR      &kp LPAR    &kp RPAR      &trans      &trans
-&trans   &kp UNDER       &kp PLUS   &kp LBRACE   &kp RBRACE   &kp LBKT     &kp RBKT      &kp PIPE      &kp BSLH      &kp DQT     &kp SQT       &trans      &trans
-&trans   &kp LT          &kp GT     &kp EQUAL    &kp TILDE    &kp QMARK    &kp COLON     &trans        &trans        &trans      &trans        &trans      &trans
-&trans   &trans          &trans     &trans       &trans       &trans       &trans        &trans        &trans        &trans      &trans        &trans      &trans
-&trans   &trans          &trans     &trans       &trans       &trans       &trans        &trans        &trans        &trans      &trans        &trans
+&trans  &kp EXCLAMATION  &kp AT    &kp HASH    &kp DLLR    &kp PRCNT    &kp CARET  &kp AMPS  &kp STAR  &kp LPAR  &kp RPAR  &trans  &trans
+&trans  &kp UNDER        &kp PLUS  &kp LBRACE  &kp RBRACE  &kp LBKT     &kp RBKT   &kp PIPE  &kp BSLH  &kp DQT   &kp SQT   &trans  &trans
+&trans  &kp LT           &kp GT    &kp EQUAL   &kp TILDE   &kp QMARK    &kp COLON  &trans    &trans    &trans    &trans    &trans  &trans
+&trans  &trans           &trans    &trans      &trans      &trans       &trans     &trans    &trans    &trans    &trans    &trans  &trans
+&trans  &trans           &trans    &trans      &trans      &trans       &trans     &trans    &trans    &trans    &trans    &trans
             >;
 
             display-name = "SIMBOLOS";
         };
-
     };
 };
